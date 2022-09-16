@@ -5,6 +5,7 @@
     const port = 3000;
 // ============================================= setup ejs ===========================================
     app.set('view engine','ejs');
+    app.use(expressLayouts);
 //================================================= Route =====================================
     app.get('/',(req,res) => {
     
@@ -36,6 +37,7 @@
         nama:'Dedesyarifudin' ,
         title:'halaman home',
         mahasiswa,
+        layout:'layouts/main-layout'
     })
     
     });
@@ -43,13 +45,19 @@
     app.get('/about',(req,res) => {
     // res.send('halaman about ')
     // res.sendFile('./views/about.html',{root :__dirname})
-    res.render('about')
+    res.render('about',{
+        layout:'layouts/main-layout',
+        title:'halaman about'
+    })
     });
 
     app.get('/contact',(req,res) => {
     // res.send('halaman contack')
     // res.sendFile('./views/contact.html',{root :__dirname})
-    res.render('contact')
+    res.render('contact',{
+        layout:'layouts/main-layout',
+        title:'halaman contact'
+    })
     });
 
 
