@@ -1,13 +1,15 @@
     const express = require('express');
     const expressLayouts = require('express-ejs-layouts');
-    const morgan = require('morgan')
+    const {loadContact ,findContact} = require('./utils/contacts');
+
+
     const app = express();
     const port = 3000;
 // ============================================= setup ejs ===========================================
     app.set('view engine','ejs');
 // ============================================= third partymidleware ================================
     app.use(expressLayouts);
-    app.use(morgan('dev'));
+    
 
 // ========================================== application level midleware ========================
 app.use((req,res,next) => {
@@ -68,11 +70,26 @@ app.use(express.static('public',))
     app.get('/contact',(req,res) => {
     // res.send('halaman contack')
     // res.sendFile('./views/contact.html',{root :__dirname})
+    const contacts = loadContact();
+    
     res.render('contact',{
         layout:'layouts/main-layout',
-        title:'halaman contact'
-    })
+        title:'halaman contact',
+        contacts,
+        })
     });
+
+    app.get('/contact/:nama',(req,res) => {
+        // res.send('halaman contack')
+        // res.sendFile('./views/contact.html',{root :__dirname})
+        const contact = findContact(req.params.nama);
+        
+        res.render('detail',{
+            layout:'layouts/main-layout',
+            title:'halaman detail contact',
+            contact,
+            })
+        });
 
 
     app.get('/product/:id',(req,res) => {
