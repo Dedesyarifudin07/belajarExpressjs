@@ -1,11 +1,24 @@
     const express = require('express');
     const expressLayouts = require('express-ejs-layouts');
-
+    const morgan = require('morgan')
     const app = express();
     const port = 3000;
 // ============================================= setup ejs ===========================================
     app.set('view engine','ejs');
+// ============================================= third partymidleware ================================
     app.use(expressLayouts);
+    app.use(morgan('dev'));
+
+// ========================================== application level midleware ========================
+app.use((req,res,next) => {
+    console.log('time :',Date.now());
+    next();
+});
+
+// ======================================== built in middleware ===================================
+app.use(express.static('public',))
+
+
 //================================================= Route =====================================
     app.get('/',(req,res) => {
     
@@ -49,6 +62,7 @@
         layout:'layouts/main-layout',
         title:'halaman about'
     })
+   
     });
 
     app.get('/contact',(req,res) => {
@@ -66,8 +80,8 @@
     })
 
     app.use('/',(req,res) => {
-    res.status(404)
-    res.send('404')
+        res.status(404)
+        res.send('404')
     })
 
     app.listen(port,(req,res) => {
