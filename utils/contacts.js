@@ -33,4 +33,33 @@ const findContact = (nama) => {
     return contact;
 }
 
-module.exports = {loadContact,findContact};
+//menuliskan /menimpa file contacts.json dengan data yang baru
+    const saveContacts =(contacts) => {
+        fs.writeFileSync('data/contacts.json',JSON.stringify(contacts))
+    }
+
+
+//menambahkan data contact baru
+const addContact = (contact) => {
+    const contacts = loadContact();
+    contacts.push(contact);
+    saveContacts(contacts);
+}
+
+
+//cek nama yang duplikat
+const cekDuplikat = (nama) => {
+    const contacts = loadContact();
+    return contacts.find((contact) => contact.nama === nama)
+}
+
+
+//hapus contact 
+const deleteContact = (nama) => {
+    const contacts =loadContact();
+    const filteredContacts = contacts.filter((contact) => contact.nama !== nama);
+   
+    saveContacts(filteredContacts);
+}
+
+module.exports = {loadContact,findContact,addContact, cekDuplikat,deleteContact};
